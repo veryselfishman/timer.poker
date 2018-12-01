@@ -1,0 +1,8 @@
+@import "theme/myVariables"; // <--------- Add your variables into this file. Also add variables to overwrite Bootstrap variables here
+@import "bootstrap"; // <--------- Custom Bootstrap, a copy from the Assets folder with options not rqequired commented out
+
+//Optional files - If you don´t use the corresponding scripts/fonts comment em out. Put them in node_modules/vendors
+//@import ""../../node_modules/vendors/fontawesome"; // <------- Font Awesome Icon font
+
+// Any additional imported files //
+@import "theme/myTheme"; // <--------- Add your styles into this file
