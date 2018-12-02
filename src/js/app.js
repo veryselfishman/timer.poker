@@ -1,5 +1,4 @@
 var timeinterval;
-var t = 0;
 var interval;
 var startingInterval;
 var currentTime;
@@ -7,22 +6,37 @@ var round = 1;
 
 const blinds = [10, 20, 50, 100, 200, 400, 600, 800, 1000];
 
-startingInterval = "0:30";
-interval = startingInterval;
+startingInterval = "10:00";
 
-$("#round").text("Round " + round);
-$("#blinds").text(blinds[round - 1] + " / " + blinds[round - 1] / 2);
-$("#countdown").text(startingInterval);
+function initialiseTimer() {
+  timerManager(false);
+  round = 1;
+  interval = startingInterval;
+  $("#round").text("Round " + round);
+  $("#blinds").text(blinds[round - 1] + " / " + blinds[round - 1] / 2);
+  $("#countdown").text(startingInterval);
 
-function togglePause(toPause) {
+  // change playPause button to play
+  toggleBtn("play");
+}
+
+function togglePause() {
   if ($("#playPause").hasClass("pause")) {
     timerManager(false);
+    toggleBtn("play");
+  } else {
+    timerManager(true);
+    toggleBtn("pause");
+  }
+}
+
+function toggleBtn(status) {
+  if (status === "play") {
     $("#playPause")
       .addClass("play")
       .removeClass("pause")
       .text("PLAY");
   } else {
-    timerManager(true);
     $("#playPause")
       .addClass("pause")
       .removeClass("play")
@@ -61,6 +75,9 @@ function countdown(currentTime) {
 
   if (minutes === 0 && seconds === "00") {
     round++;
+    if (round > blinds.length) {
+      timerManager(false);
+    }
     $("#round").text("Round " + round);
     $("#blinds").text(blinds[round - 1] + " / " + blinds[round - 1] / 2);
     $("#countdown").removeClass("text-danger");
@@ -69,7 +86,7 @@ function countdown(currentTime) {
 }
 
 $(document).ready(function() {
-  timerManager(true);
+  initialiseTimer();
 
   //========================================================================
 
