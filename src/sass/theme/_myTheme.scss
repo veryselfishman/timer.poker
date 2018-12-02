@@ -1,3 +1,54 @@
+// CUSTOM THEME (sass/theme/_myTheme.scss)
+//=============================================
+
+// Disable Scrollbar
+html,
 body {
-  color: $primary;
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+}
+
+// Navigation
+.nav-tabs {
+  .nav-link {
+    border-bottom: $nav-tabs-border-color;
+
+    &.active {
+      background-color: $body-bg;
+      border-bottom: none !important;
+    }
+  }
+}
+
+// Main layouts
+
+.fullScreen {
+  display: none;
+  text-align: center;
+  position: absolute;
+  top: $nav-link-height;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  text-rendering: optimizeLegibility;
+
+  &.active {
+    display: table;
+    text-align: center;
+    vertical-align: middle;
+  }
+
+  .screenContent {
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+  }
+}
+
+// Timer
+
+#countdown {
+  font-size: 20vw;
+  width: 5em;
 }
