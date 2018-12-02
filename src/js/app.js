@@ -3,10 +3,11 @@ var interval;
 var startingInterval;
 var currentTime;
 var round = 1;
+const blinds = [10, 20, 50, 100, 200, 400, 800, 1600];
+var smallBlind = blinds[0] / 2;
+var bigBlind = blinds[0];
 
-const blinds = [10, 20, 50, 100, 200, 400, 600, 800, 1000];
-
-startingInterval = "10:00";
+startingInterval = "0:20";
 
 function initialiseTimer(r) {
   timerManager(false);
@@ -16,12 +17,22 @@ function initialiseTimer(r) {
     round = 1;
   }
   interval = startingInterval;
-  $("#round").text("Round " + round);
-  $("#blinds").text(blinds[round - 1] + " / " + blinds[round - 1] / 2);
-  $("#countdown").text(startingInterval);
 
+  $("#countdown").text(startingInterval);
+  setBlinds();
   // change playPause button to play
   toggleBtn("play");
+}
+
+function setBlinds() {
+  $("#round").text("Round " + round);
+
+  bigBlind = blinds[round - 1];
+  smallBlind = bigBlind / 2;
+  $("#blinds").text(bigBlind + " / " + smallBlind);
+  $("#smallBlind img").attr("src", "img/chip-" + smallBlind + ".png");
+  $("#bigBlind img").attr("src", "img/chip-" + bigBlind + ".png");
+  $("#countdown").removeClass("text-danger");
 }
 
 function togglePause() {
@@ -53,7 +64,9 @@ function timerCtl(action) {
   if (action == "back") {
     round--;
   } else {
-    round++;
+    if (round < blinds.length) {
+      round++;
+    }
   }
   interval = startingInterval;
   initialiseTimer(round);
@@ -89,13 +102,10 @@ function countdown(currentTime) {
   interval = minutes + ":" + seconds;
 
   if (minutes === 0 && seconds === "00") {
-    round++;
     if (round > blinds.length) {
       timerManager(false);
     }
-    $("#round").text("Round " + round);
-    $("#blinds").text(blinds[round - 1] + " / " + blinds[round - 1] / 2);
-    $("#countdown").removeClass("text-danger");
+    setBlinds();
     interval = startingInterval;
   }
 }

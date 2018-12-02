@@ -28,17 +28,40 @@
         <section id="timer" class="fullScreen active">
             <div class="screenContent">
                 <h1 class="display-1">Poker Timer</h1>
-                <span id="countdown" class="display-1">0:00
-                   </span>
-                   <p id="round">Round 1</p>
-                   <p id="blinds"></p>
+                <div class="container-fluid">
 
-                <div id="timerControls">
-                    <button id="back" class="btn btn-large btn-outline-primary" onclick="timerCtl('back')"><<</button>
-                    <button id="playPause" class="btn btn-large btn-outline-primary play" onclick="togglePause()">Play</button>
-                    <button id="reset" class="btn btn-large btn-outline-secondary" onclick="initialiseTimer()">Reset</button>
-                    <button id="forward" class="btn btn-large btn-outline-primary" onclick="timerCtl('fwd')">>></button>
-                </div>
+                    <div class="row">
+
+                        <div class="col">
+                            <div id="bigBlind">
+                                <img class="blinds" src="img/chip-10.png">
+                            </div>
+                        </div><!-- .col -->
+
+                        <div class="col-xs-12 col-sm-6">
+
+                            <span id="countdown" class="display-1">0:00
+                            </span>
+                            <p id="round">Round 1</p>
+                            <p id="blinds"></p>
+
+                            <div id="timerControls">
+                                <button id="back" class="btn btn-large btn-outline-primary" onclick="timerCtl('back')"><<</button>
+                                <button id="playPause" class="btn btn-large btn-outline-primary play" onclick="togglePause()">Play</button>
+                                <button id="reset" class="btn btn-large btn-outline-secondary" onclick="initialiseTimer()">Reset</button>
+                                <button id="forward" class="btn btn-large btn-outline-primary" onclick="timerCtl('fwd')">>></button>
+                            </div>
+                        </div><!-- .col -->
+
+                        <div class="col">
+                            <div id="smallBlind">
+                                <img class="blinds" src="img/chip-5.png">
+                            </div>
+                        </div><!-- .col -->
+
+                    </div><!-- .row -->
+
+                </div><!-- .container-fluid -->
             </div><!-- .screenContent -->
         </section><!-- #timer -->
 
