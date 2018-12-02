@@ -19,15 +19,19 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#table">Table</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#settings">Settings</a>
+                </li>
             </ul>
         </nav>
 
         <section id="timer" class="fullScreen active">
             <div class="screenContent">
                 <h1 class="display-1">Poker Timer</h1>
-                <div id="countdown" class="display-1">
-                    <span class="minutes">10</span>:<span class="seconds">00</span>
-                </div>
+                <span id="countdown" class="display-1">0:00
+                   </span>
+                   <p id="round">Round 1</p>
+                   <p id="blinds"></p>
 
                 <div id="timerControls">
                     <button id="playPause" class="btn btn-large btn-outline-primary pause" onclick="togglePause(1)">Pause</button>
@@ -38,6 +42,12 @@
         <section id="table" class="fullScreen">
             <div class="screenContent">
                 <h1 class="display-2">League Table</h1>
+            </div><!-- .screenContent -->
+        </section>
+
+        <section id="settings" class="fullScreen">
+            <div class="screenContent">
+                <h1 class="display-2">Settings</h1>
             </div><!-- .screenContent -->
         </section>
 

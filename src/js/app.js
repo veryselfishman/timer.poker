@@ -1,16 +1,28 @@
 var timeinterval;
 var t = 0;
+var interval;
+var startingInterval;
+var currentTime;
+var round = 1;
+
+const blinds = [10, 20, 50, 100, 200, 400, 600, 800, 1000];
+
+startingInterval = "0:30";
+interval = startingInterval;
+
+$("#round").text("Round " + round);
+$("#blinds").text(blinds[round - 1] + " / " + blinds[round - 1] / 2);
+$("#countdown").text(startingInterval);
 
 function togglePause(toPause) {
   if ($("#playPause").hasClass("pause")) {
-    clearInterval(timeinterval);
+    timerManager(false);
     $("#playPause")
       .addClass("play")
       .removeClass("pause")
       .text("PLAY");
   } else {
-    var deadline = new Date(Date.parse(new Date()) + t);
-    initializeClock("countdown", deadline);
+    timerManager(true);
     $("#playPause")
       .addClass("pause")
       .removeClass("play")
@@ -18,113 +30,46 @@ function togglePause(toPause) {
   }
 }
 
-function getTimeRemaining(endtime) {
-  t = Date.parse(endtime) - Date.parse(new Date());
-  var seconds = Math.floor((t / 1000) % 60);
-  var minutes = Math.floor((t / 1000 / 60) % 60);
-  var hours = Math.floor((t / (1000 * 60 * 60)) % 24);
-  var days = Math.floor(t / (1000 * 60 * 60 * 24));
-  return {
-    total: t,
-    days: days,
-    hours: hours,
-    minutes: minutes,
-    seconds: seconds
-  };
+function timerManager(flag) {
+  if (flag) {
+    timeinterval = setInterval(function() {
+      currentTime = interval;
+      countdown(currentTime);
+    }, 1000);
+  } else {
+    clearInterval(timeinterval);
+  }
 }
 
-function getTimeRemainingNew(endtime) {
-  var t = Date.parse(endtime) - Date.parse(new Date());
-  var seconds = Math.floor((t / 1000) % 60);
-  var minutes = Math.floor((t / 1000 / 60) % 60);
-  var hours = Math.floor((t / (1000 * 60 * 60)) % 24);
-  var days = Math.floor(t / (1000 * 60 * 60 * 24));
-  return {
-    total: t,
-    days: days,
-    hours: hours,
-    minutes: minutes,
-    seconds: seconds
-  };
-}
+function countdown(currentTime) {
+  var timer = currentTime.split(":");
+  //by parsing integer, I avoid all extra string processing
+  var minutes = parseInt(timer[0], 10);
+  var seconds = parseInt(timer[1], 10);
+  --seconds;
+  minutes = seconds < 0 ? --minutes : minutes;
+  seconds = seconds < 0 ? 59 : seconds;
 
-function initializeClock(id, endtime) {
-  var clock = document.getElementById(id);
-
-  var minutesSpan = clock.querySelector(".minutes");
-  var secondsSpan = clock.querySelector(".seconds");
-
-  function updateClock() {
-    var t = getTimeRemaining(endtime);
-
-    minutesSpan.innerHTML = ("0" + t.minutes).slice(-2);
-    secondsSpan.innerHTML = ("0" + t.seconds).slice(-2);
-
-    if (t.total <= 0) {
-      clearInterval(timeinterval);
-    }
+  if (minutes === 0 && seconds < 11) {
+    $("#countdown").addClass("text-danger");
   }
 
-  updateClock();
-  timeinterval = setInterval(updateClock, 1000);
-}
+  seconds = seconds < 10 ? "0" + seconds : seconds;
+  //minutes = (minutes < 10) ?  minutes : minutes;
+  $("#countdown").html(minutes + ":" + seconds);
+  interval = minutes + ":" + seconds;
 
-function setClock(hours, minutes) {}
+  if (minutes === 0 && seconds === "00") {
+    round++;
+    $("#round").text("Round " + round);
+    $("#blinds").text(blinds[round - 1] + " / " + blinds[round - 1] / 2);
+    $("#countdown").removeClass("text-danger");
+    interval = startingInterval;
+  }
+}
 
 $(document).ready(function() {
-  var days = 1;
-  var hours = 1;
-  var minutes = 0.25;
-  var seconds = 1;
-
-  var deadline = new Date(
-    Date.parse(new Date()) + days * 60 * minutes * 60 * seconds * 1000
-  );
-
-  initializeClock("countdown", deadline);
-
-  /* MY ATTEMPT
-  // ================================================================
-    // Countdown Timer
-
-  // Timer
-  var interval = "10:00";
-  var play = false;
-
-  //countdown function
-  function countdown(currentTime) {
-    console.log(interval);
-    var timer = currentTime.split(":");
-    //by parsing integer, I avoid all extra string processing
-    var minutes = parseInt(timer[0], 10);
-    var seconds = parseInt(timer[1], 10);
-    --seconds;
-    minutes = seconds < 0 ? --minutes : minutes;
-
-    if (minutes < 0) clearInterval(repeat);
-    seconds = seconds < 0 ? 59 : seconds;
-    seconds = seconds < 10 ? "0" + seconds : seconds;
-    //minutes = (minutes < 10) ?  minutes : minutes;
-    $("#countdown").html(minutes + ":" + seconds);
-    interval = minutes + ":" + seconds;
-    console.log(interval);
-  }
-
-  $("#playPause").on("click", function() {
-    if (play === false) {
-      play = true;
-      $("#playPause").text("Pause");
-      var repeat = setInterval(function() {
-        var currentTime = interval;
-        countdown(currentTime);
-      }, 1000);
-    } else {
-      console.log("pause!");
-      clearInterval(repeat);
-    }
-  });
-    
-    MY ATTEMPT */
+  timerManager(true);
 
   //========================================================================
 
