@@ -34,8 +34,10 @@
                    <p id="blinds"></p>
 
                 <div id="timerControls">
+                    <button id="back" class="btn btn-large btn-outline-primary" onclick="timerCtl('back')"><<</button>
                     <button id="playPause" class="btn btn-large btn-outline-primary play" onclick="togglePause()">Play</button>
                     <button id="reset" class="btn btn-large btn-outline-secondary" onclick="initialiseTimer()">Reset</button>
+                    <button id="forward" class="btn btn-large btn-outline-primary" onclick="timerCtl('fwd')">>></button>
                 </div>
             </div><!-- .screenContent -->
         </section><!-- #timer -->
