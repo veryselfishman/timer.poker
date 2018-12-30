@@ -13,6 +13,9 @@ body {
 .nav-tabs {
   .nav-link {
     border-bottom: $nav-tabs-border-color;
+    font-family: $font-family-action;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
 
     &.active {
       background-color: $body-bg;
@@ -51,10 +54,18 @@ body {
 
 #countdown {
   font-size: 20vw;
-  width: 5em;
+  line-height: 0.75em;
+  display: block;
+  margin-bottom: 0.2em;
 }
 
 img.blinds {
   width: 90%;
   margin: 0 auto;
+}
+
+button {
+  font-family: $font-family-action;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
 }

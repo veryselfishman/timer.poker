@@ -6,6 +6,7 @@
             <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Playfair+Display:400,400italic,700,700italic">
+        <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
         <link rel='stylesheet' href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="css/style.min.css">
     </head>
@@ -22,12 +23,15 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#settings">Settings</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#credits">Credits</a>
+                </li>
             </ul>
         </nav>
 
         <section id="timer" class="fullScreen active">
             <div class="screenContent">
-                <h1 class="display-1">Poker Timer</h1>
+                <h1 class="display-3">Poker Timer</h1>
                 <div class="container-fluid">
 
                     <div class="row">
@@ -40,7 +44,7 @@
 
                         <div class="col-xs-12 col-sm-6">
 
-                            <span id="countdown" class="display-1">0:00
+                            <span id="countdown" class="display-1">10:00
                             </span>
                             <p id="round">Round 1</p>
                             <p id="blinds"></p>
@@ -74,6 +78,12 @@
         <section id="settings" class="fullScreen">
             <div class="screenContent">
                 <h1 class="display-2">Settings</h1>
+            </div><!-- .screenContent -->
+        </section>
+
+        <section id="credits" class="fullScreen">
+            <div class="screenContent">
+                <h1 class="display-2">Credits</h1>
             </div><!-- .screenContent -->
         </section>
 
