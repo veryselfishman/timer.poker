@@ -1,0 +1,155 @@
+// Sweepstake
+//Mixins
+@mixin blinking {
+  animation-name: blink;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+  backface-visibility: hidden;
+}
+
+body.sweepstake {
+  #headerInfo {
+    background: rgba(0, 0, 0, 0.5);
+    font-size: $font-size-base * 0.85;
+    text-align: right;
+    .btn {
+      font-size: $font-size-base * 0.85;
+      border-radius: 0;
+      margin-right: 5px;
+      padding: 0.15rem 1rem;
+    }
+  }
+
+  h1 {
+    @include media-breakpoint-down(sm) {
+      font-size: $font-size-base * 1.2;
+    }
+  }
+  h3 {
+    @include media-breakpoint-down(sm) {
+      font-size: $font-size-base;
+    }
+  }
+
+  .team {
+    width: 33.3%;
+    opacity: 0.15;
+    transition: all 0.25s;
+    @include media-breakpoint-up(sm) {
+      width: 25%;
+    }
+    @include media-breakpoint-up(lg) {
+      width: 16.66%;
+    }
+
+    img {
+      width: 6vw;
+      //background-color: rgba(255, 255, 255, 0.8);
+      //border-radius: 50%;
+      margin: 1vw auto;
+      transition: all 0.25s;
+    }
+
+    h1 {
+      font-size: $font-size-base * 1.2;
+      margin: 0;
+      @include media-breakpoint-down(sm) {
+        font-size: $font-size-base * 0.8;
+      }
+    }
+    ul {
+      margin: 0 0 5px;
+      padding: 0;
+      list-style: none;
+      font-size: $font-size-base * 0.66;
+      @include media-breakpoint-down(sm) {
+        display: none;
+      }
+    }
+
+    &.available {
+      opacity: 0.75;
+
+      &.active {
+        cursor: pointer;
+        &:hover,
+        &.selected {
+          opacity: 1;
+          color: $success;
+
+          img {
+            width: 8vw;
+            margin: 0 auto;
+          }
+        }
+        &.selected {
+          @include blinking;
+        }
+      }
+    }
+  }
+
+  #pick {
+    border-top: 1px dotted rgba(255, 255, 255, 0.1);
+    border-bottom: 1px dotted rgba(255, 255, 255, 0.1);
+    span {
+      color: $warning;
+    }
+  }
+
+  .player {
+    flex: 1;
+    border-right: 1px dotted rgba(255, 255, 255, 0.1);
+  }
+
+  .picker {
+    color: $success;
+  }
+
+  .pickedTeams {
+    width: 100%;
+    > div {
+      width: 50%;
+      float: left;
+    }
+    img {
+      max-width: 80px;
+      width: 100%;
+      margin: 0 auto;
+      &.noPick,
+      &.eliminated {
+        opacity: 0.15;
+      }
+    }
+  }
+
+  #selectedTeam {
+    transition: all 0.25s;
+    height: 40px;
+    p {
+      padding: 2px 5px;
+    }
+    span {
+      text-transform: uppercase;
+    }
+    .btn {
+      margin-left: 5px;
+    }
+  }
+}
+
+.blinking {
+  @include blinking;
+}
+
+@keyframes blink {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.33;
+  }
+  100% {
+    opacity: 1;
+  }
+}
