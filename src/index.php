@@ -1,4 +1,64 @@
-<?php include 'inc/header.php'; ?>
+<?php include 'inc/header.php';
+// Include config file
+require_once "inc/config.php";
+
+// Check if Game is uploaded
+if ($_POST['game']) {
+    for($i = 1; $i<=6; $i++) {
+        $position = 'pos' . $i;
+        $pos[$i] = $_POST[$position];
+    }
+    $season = 19;
+    $host = 2;
+    $round = $_POST['round'];
+    $game = $_POST['game'];
+    $insert = "INSERT INTO games VALUES (NULL, $season, $host, $round, $game, $pos[1], $pos[2], $pos[3], $pos[4], $pos[5], $pos[6])";
+    $upload = $mysqli->query($insert);
+    header("Location:index.php");
+    exit;
+} 
+
+// GET game data
+$round = 1;
+$sql = "SELECT * FROM games WHERE `round` = $round";
+
+$result = $mysqli->query($sql);
+
+if($result){
+// Cycle through results and build an associative array
+while ($row = $result->fetch_array(MYSQLI_BOTH)){
+        $games[] = $row;
+    }
+    // Free result set
+    $result->close();
+}
+
+$lastGame = end($games);
+$thisGame = $lastGame['game'] + 1;
+$thisRound = $lastGame['round'];
+
+if ($thisGame == 7) {
+    $thisGame = 1; $thisRound++;
+}
+
+// GET Users in points order
+$sql = "SELECT * FROM users ORDER BY draftorder";
+
+$result = $mysqli->query($sql);
+
+if($result){
+// Cycle through results and build an associative array
+while ($row = $result->fetch_array(MYSQLI_BOTH)){
+        $players[] = $row;
+    }
+    // Free result set
+    $result->close();
+}
+
+
+
+
+?>
 
 <!DOCTYPE html>
 <html class="no-js" lang="en">
@@ -32,43 +92,7 @@
         </nav>
 
         <section id="timer" class="fullScreen active">
-            <div class="screenContent">
-                <h1 class="display-3">Poker Timer</h1>
-                <div class="container-fluid">
-
-                    <div class="row">
-
-                        <div class="col">
-                            <div id="bigBlind">
-                                <img class="blinds" src="img/chip-10.png">
-                            </div>
-                        </div><!-- .col -->
-
-                        <div class="col-xs-12 col-sm-6">
-
-                            <span id="countdown" class="display-1">10:00
-                            </span>
-                            <p id="round">Round 1</p>
-                            <p id="blinds"></p>
-
-                            <div id="timerControls">
-                                <button id="back" class="btn btn-large btn-outline-primary" onclick="timerCtl('back')"><<</button>
-                                <button id="playPause" class="btn btn-large btn-outline-primary play" onclick="togglePause()">Play</button>
-                                <button id="reset" class="btn btn-large btn-outline-secondary" onclick="initialiseTimer()">Reset</button>
-                                <button id="forward" class="btn btn-large btn-outline-primary" onclick="timerCtl('fwd')">>></button>
-                            </div>
-                        </div><!-- .col -->
-
-                        <div class="col">
-                            <div id="smallBlind">
-                                <img class="blinds" src="img/chip-5.png">
-                            </div>
-                        </div><!-- .col -->
-
-                    </div><!-- .row -->
-
-                </div><!-- .container-fluid -->
-            </div><!-- .screenContent -->
+            <?php include 'inc/timer.php'; ?>
         </section><!-- #timer -->
 
         <section id="table" class="fullScreen">

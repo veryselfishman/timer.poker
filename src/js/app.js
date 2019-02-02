@@ -127,4 +127,54 @@ $(document).ready(function() {
     $("section").removeClass("active");
     $(screen).addClass("active");
   });
+
+  // WHEN YOU'RE OUT YOU'RE OUT
+  // Set variables
+  var pos = 6;
+  var ord = "th";
+  var pName;
+  var pID;
+
+  $(".pActive").on("click", function() {
+    pName = $(this).data("pname");
+    pID = $(this).data("id");
+
+    if (pos > 2) {
+      $("span#playerName").text(pName);
+
+      if (pos === 3) {
+        ord = "rd";
+      }
+      $("span#position").text(pos + ord);
+      //update the relevant hidden input
+      $("#inputPos" + pos).val(pID);
+    } else {
+      var pWinner = $(".pActive").not(this);
+      var winName = pWinner.data("pname");
+      var winID = pWinner.data("id");
+      $("#confirm").hide();
+      $("#submit").show();
+      $(".message").html(
+        "<span>" +
+          pName +
+          "</span> is second</p><p><span>" +
+          winName.toUpperCase() +
+          "</span> WINS!!!"
+      );
+      //update the relevant hidden input
+      $("#inputPos2").val(pID);
+      $("#inputPos1").val(winID);
+    }
+  });
+
+  // Set confirm to commit results
+  $(document).on("click", "#confirm", function() {
+    pos--;
+    playerName = $("span#playerName").text();
+    console.log(pos);
+    $("#playerFace-" + playerName)
+      .removeClass("pActive")
+      .removeAttr("data-toggle");
+    console.log(playerName);
+  });
 });
