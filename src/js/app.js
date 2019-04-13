@@ -3,7 +3,7 @@ var interval;
 var startingInterval;
 var currentTime;
 var round = 1;
-const blinds = [10, 20, 50, 100, 200, 400, 800, 1600];
+var blinds = [10, 20, 50, 100, 200, 400, 800, 1600];
 var smallBlind = blinds[0] / 2;
 var bigBlind = blinds[0];
 
@@ -25,7 +25,7 @@ function initialiseTimer(r) {
 }
 
 function setBlinds() {
-  $("#round").text("Round " + round);
+  $("#round").text("Level " + round);
 
   bigBlind = blinds[round - 1];
   smallBlind = bigBlind / 2;
@@ -105,76 +105,105 @@ function countdown(currentTime) {
     if (round > blinds.length) {
       timerManager(false);
     }
+    round++;
     setBlinds();
     interval = startingInterval;
   }
 }
 
-$(document).ready(function() {
-  initialiseTimer();
+$(function() {
+  $(document).ready(function() {
+    initialiseTimer();
 
-  //========================================================================
+    //========================================================================
 
-  //NON TIMER RELATED
+    //NON TIMER RELATED
 
-  // Navigation
-  $(".nav-link").on("click", function(e) {
-    e.preventDefault();
-    $(".nav-link").removeClass("active");
-    $(this).addClass("active");
-    // Get section
-    let screen = $(this).attr("href");
-    $("section").removeClass("active");
-    $(screen).addClass("active");
-  });
+    // Navigation
+    $(".nav-link").on("click", function(e) {
+      e.preventDefault();
+      $(".nav-link").removeClass("active");
+      $(this).addClass("active");
+      // Get section
+      var screen = $(this).attr("href");
+      $("section").removeClass("active");
+      $(screen).addClass("active");
+    });
 
-  // WHEN YOU'RE OUT YOU'RE OUT
-  // Set variables
-  var pos = 6;
-  var ord = "th";
-  var pName;
-  var pID;
+    // WHEN YOU'RE OUT YOU'RE OUT
+    // Set variables
+    var pos = 6;
+    var ord = "th";
+    var pName;
+    var pID;
 
-  $(".pActive").on("click", function() {
-    pName = $(this).data("pname");
-    pID = $(this).data("id");
+    $(".pActive").on("click", function() {
+      pName = $(this).data("pname");
+      pID = $(this).data("id");
 
-    if (pos > 2) {
-      $("span#playerName").text(pName);
+      if (pos > 2) {
+        $("span#playerName").text(pName);
 
-      if (pos === 3) {
-        ord = "rd";
+        if (pos === 3) {
+          ord = "rd";
+        }
+        $("span#position").text(pos + ord);
+        //update the relevant hidden input
+        $("#inputPos" + pos).val(pID);
+      } else {
+        var pWinner = $(".pActive").not(this);
+        var winName = pWinner.data("pname");
+        var winID = pWinner.data("id");
+        $("#confirm").hide();
+        $("#submit").show();
+        $(".message").html(
+          "<span>" +
+            pName +
+            "</span> is second</p><p><span>" +
+            winName.toUpperCase() +
+            "</span> WINS!!!"
+        );
+        //update the relevant hidden input
+        $("#inputPos2").val(pID);
+        $("#inputPos1").val(winID);
       }
-      $("span#position").text(pos + ord);
-      //update the relevant hidden input
-      $("#inputPos" + pos).val(pID);
-    } else {
-      var pWinner = $(".pActive").not(this);
-      var winName = pWinner.data("pname");
-      var winID = pWinner.data("id");
-      $("#confirm").hide();
-      $("#submit").show();
-      $(".message").html(
-        "<span>" +
-          pName +
-          "</span> is second</p><p><span>" +
-          winName.toUpperCase() +
-          "</span> WINS!!!"
-      );
-      //update the relevant hidden input
-      $("#inputPos2").val(pID);
-      $("#inputPos1").val(winID);
-    }
-  });
+    });
 
-  // Set confirm to commit results
-  $(document).on("click", "#confirm", function() {
-    pos--;
-    playerName = $("span#playerName").text();
-    console.log(pos);
-    $("#playerFace-" + playerName)
-      .removeClass("pActive")
-      .removeAttr("data-toggle");
-    console.log(playerName);
+    // Set confirm to commit results
+    $(document).on("click", "#confirm", function() {
+      pos--;
+      playerName = $("span#playerName").text();
+      console.log(pos);
+      $("#playerFace-" + playerName)
+        .removeClass("pActive")
+        .removeAttr("data-toggle");
+      console.log(playerName);
+    });
+
+    // AUTO SORT TABLE AS PER TOTAL (Courtesy of mindplay.dk: http://jsfiddle.net/H2mrp/ from stack overflow https://stackoverflow.com/questions/3160277/jquery-table-sort)
+    $.fn.order = function(asc, fn) {
+      fn =
+        fn ||
+        function(el) {
+          return $(el)
+            .text()
+            .replace(/^\s+|\s+$/g, "");
+        };
+      var T = asc !== false ? 1 : -1,
+        F = asc !== false ? -1 : 1;
+      this.sort(function(a, b) {
+        (a = fn(a)), (b = fn(b));
+        if (a == b) return 0;
+        return a < b ? F : T;
+      });
+      this.each(function(i) {
+        this.parentNode.appendChild(this);
+      });
+    };
+
+    // sort table rows by descending value in first column:
+    $("#gameGrid tr.sortable").order(false, function(el) {
+      return parseInt($("td.totPts", el).text());
+    });
   });
 });

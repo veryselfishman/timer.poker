@@ -18,9 +18,8 @@ if ($_POST['game']) {
     exit;
 } 
 
-// GET game data
-$round = 1;
-$sql = "SELECT * FROM games WHERE `round` = $round";
+// GET game data from games to find out which round and game we are on
+$sql = "SELECT * FROM games";
 
 $result = $mysqli->query($sql);
 
@@ -34,11 +33,20 @@ while ($row = $result->fetch_array(MYSQLI_BOTH)){
 }
 
 $lastGame = end($games);
-$thisGame = $lastGame['game'] + 1;
-$thisRound = $lastGame['round'];
+if ($lastGame) {
+    $prevGame = $lastGame['game'];
+    $thisGame = $prevGame + 1;
+    $prevRound = $lastGame['round'];
+} else {
+    $thisGame = $prevRound = 1;
+    $prevGame = 0;
+}
+
 
 if ($thisGame == 7) {
-    $thisGame = 1; $thisRound++;
+    $thisGame = 1; $thisRound = $prevRound+1;
+} else {
+    $thisRound = $prevRound;
 }
 
 // GET Users in points order
@@ -73,7 +81,7 @@ while ($row = $result->fetch_array(MYSQLI_BOTH)){
         <link rel="stylesheet" href="css/style.min.css">
     </head>
 
-    <body>
+    <body class="sweepstake">
         <nav>
             <ul class="nav nav-tabs nav-fill">
                 <li class="nav-item">
@@ -82,9 +90,11 @@ while ($row = $result->fetch_array(MYSQLI_BOTH)){
                 <li class="nav-item">
                     <a class="nav-link" href="#table">Table</a>
                 </li>
+                <!-- NOT YET
                 <li class="nav-item">
                     <a class="nav-link" href="#settings">Settings</a>
                 </li>
+                -->
                 <li class="nav-item">
                     <a class="nav-link" href="#sweepstake">sweepstake</a>
                 </li>
@@ -96,21 +106,19 @@ while ($row = $result->fetch_array(MYSQLI_BOTH)){
         </section><!-- #timer -->
 
         <section id="table" class="fullScreen">
-            <div class="screenContent">
-                <h1 class="display-2">League Table</h1>
-            </div><!-- .screenContent -->
+            <?php include 'inc/table.php'; ?>
         </section>
 
+        <!-- NOT YET
         <section id="settings" class="fullScreen">
             <div class="screenContent">
                 <h1 class="display-2">Settings</h1>
-            </div><!-- .screenContent -->
+            </div>
         </section>
+        .screenContent -->
 
         <section id="sweepstake" class="fullScreen">
-            <div class="screenContent">
-                <h1 class="display-2">Sweepstake</h1>
-            </div><!-- .screenContent -->
+            <?php include 'inc/sweepstake.php'; ?>
         </section>
 
         

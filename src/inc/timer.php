@@ -1,6 +1,7 @@
 
 <div class="screenContent">
     <h1 class="display-3">Poker Timer</h1>
+    <h2>Round: <?php echo $thisRound ?> / <?php echo $thisGame ?></h2>
     <div class="container-fluid">
 
         <div class="row">
