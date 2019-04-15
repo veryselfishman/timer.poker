@@ -9,7 +9,7 @@ if ($_POST['game']) {
         $pos[$i] = $_POST[$position];
     }
     $season = 19;
-    $host = 2;
+    $host = 6;
     $round = $_POST['round'];
     $game = $_POST['game'];
     $insert = "INSERT INTO games VALUES (NULL, $season, $host, $round, $game, $pos[1], $pos[2], $pos[3], $pos[4], $pos[5], $pos[6])";
@@ -129,6 +129,6 @@ while ($row = $result->fetch_array(MYSQLI_BOTH)){
         <!-- JavaScript -->
         <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
         <script src="js/bootstrap.bundle.min.js"></script>
-        <script src="js/app.js"></script>
+        <script src="js/app.js?6"></script>
     </body>
 </html>

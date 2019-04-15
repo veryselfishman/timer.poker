@@ -20,7 +20,7 @@ while ($row = $result->fetch_array(MYSQLI_BOTH)){
 <div class="screenContent">
     <h1 class="display-2">League Table</h1>
 
-    <h2>Round: <?php echo $prevRound ?></h2>
+    <h2>Round: <?php echo $prevRound ?> | Game: <?php echo $thisGame;?></h2>
 
     <table id="gameGrid" class="table table-dark">
         <thead>
@@ -58,7 +58,12 @@ while ($row = $result->fetch_array(MYSQLI_BOTH)){
 
         foreach($leaguePlayers as $lPlayer) :
             $name = $lPlayer['username'];
-            $startPts = $lPlayer['points'];
+            if ( $thisGame > 1 ) {
+                $startPts = $lPlayer['points'];
+            } else {
+                $startPts = 0;
+            }
+            
             $runningPts = 0;
             $id = $lPlayer['id'];
 
